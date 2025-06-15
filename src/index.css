@@ -6,7 +6,17 @@ body {
   /* щоб приховати випадковий горизонтальний скрол */
 }
 
-/* HEADER */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  scroll-behavior: smooth;
+  color: #333;
+  transition: all 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 .main-layout {
   display: flex;
   width: 100%;
@@ -15,6 +25,38 @@ body {
 
   background: url('../public/main.jpg') no-repeat center center;
   background-size: cover;
+}
+
+/* HEADER */
+.lang-button {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  padding: 6px 12px;
+  background-color: transparent;
+  border: 2px solid #dabfbf;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 100;
+}
+
+.lang-button {
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  padding: 6px 12px;
+  background-color: transparent;
+  border: 2px solid #dabfbf;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 100;
+}
+
+.lang-button:hover {
+  background: linear-gradient(135deg, #fce4ec, #e3f2fd);
+  box-shadow: 0 4px 12px rgba(99, 108, 111, 0.2);
 }
 
 .header-container {
@@ -53,7 +95,6 @@ body {
   font-weight: 500;
   color: #5e548e;
   display: block;
-  margin-top: 8px;
 }
 
 .header-nav {
@@ -98,6 +139,7 @@ body {
 
 /* MAININFO */
 .main-info {
+  padding: 40px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,7 +190,6 @@ body {
 }
 
 .couple-names {
-  margin-top: 40px;
   font-size: 20px;
   font-weight: 600;
   color: #d16ba5;

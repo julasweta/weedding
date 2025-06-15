@@ -11,13 +11,15 @@ import { guestService, IGuest } from "../../services/guestService";
 interface AuthState {
   error: string | null;
   me: IGuest | null;
-  logoutTrigger?: boolean; // Додано для можливого розширення
+  logoutTrigger?: boolean;
+  language?: string;
 }
 
 const initialState: AuthState = {
   error: null,
   me: null,
-  logoutTrigger: false, // Ініціалізуємо logoutTrigger
+  logoutTrigger: false, 
+  language: "ua", 
 };
 
 const login = createAsyncThunk<IGuest, { firstName: string; lastName: string }, { rejectValue: string }>(
@@ -65,6 +67,10 @@ export const AuthSlice = createSlice({
     setLogoutTrigger: (state) => {
       state.me = null;
       state.logoutTrigger = !state.logoutTrigger; // Перемикаємо стан logoutTrigger
+    },
+    setLanguage: (state, action) => {
+      state.language = action.payload; // Зберігаємо вибрану мову
+      localStorage.setItem("language", action.payload); // Зберігаємо мову в localStorage
     },
   
   },
