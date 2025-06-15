@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, createHashRouter } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { AppRoutes } from "./AppRoutes";
 import Error404 from "../components/Error404";
@@ -8,29 +8,29 @@ import MainInfo from "../components/mainInfo/MainInfo";
 import AboutUs from "../components/about/About";
 import Confirm from "../components/confirm/Confirm";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
       {
         index: true,
-        element: <Navigate to={AppRoutes.HOME} />,
+        element: <Navigate to={AppRoutes.MAIN_INFO} />,
       },
       {
-        path: "location",
+        path: AppRoutes.LOCATION,
         element: <Location />,
       },
       {
-        path: "maininfo",
+        path: AppRoutes.MAIN_INFO,
         element: <MainInfo />,
       },
       {
-        path: "about",
+        path: AppRoutes.ABOUT,
         element: <AboutUs />,
       },
       {
-        path: "confirm",
+        path: AppRoutes.CONFIRM,
         element: <Confirm />,
       },
       {
@@ -40,3 +40,4 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+

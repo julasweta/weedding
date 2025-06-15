@@ -1,5 +1,12 @@
-import React from "react";
+import { useAppSelector } from "../../hooks/hooks";
+
+
 const AboutUs = () => {
+  const { me } = useAppSelector((state) => state.auth); 
+  
+  if (!me) {
+    return null; // Якщо користувач не авторизований, нічого не показуємо
+  }
   return (
     <section className="about-us">
       <h2 className="about-title">Про нас</h2>

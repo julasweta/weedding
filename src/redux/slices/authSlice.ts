@@ -6,44 +6,53 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import { authService } from "../../services/authService";
-import { IGuest } from "../../services/guestService";
+import { guestService, IGuest } from "../../services/guestService";
 
 interface AuthState {
   error: string | null;
   me: IGuest | null;
+  logoutTrigger?: boolean; // Додано для можливого розширення
 }
 
 const initialState: AuthState = {
   error: null,
   me: null,
+  logoutTrigger: false, // Ініціалізуємо logoutTrigger
 };
 
-// login – перевірка наявності гостя в guests.json
-const login = createAsyncThunk<IGuest, { firstName: string; lastName: string }>(
+const login = createAsyncThunk<IGuest, { firstName: string; lastName: string }, { rejectValue: string }>(
   "authSlice/login",
   async ({ firstName, lastName }, { rejectWithValue }) => {
     try {
-      const guest = await authService.login({ firstName, lastName });
-      return guest;
+      const response = await authService.login(firstName, lastName);
+
+      if (!response.data || Object.keys(response.data).length === 0) {
+        return rejectWithValue("Користувача не знайдено");
+      }
+
+      return response.data;
+    } catch (e: any) {
+      return rejectWithValue("Сталася помилка при вході: " + e.message);
+    }
+  }
+);
+
+
+const confirm = createAsyncThunk<IGuest, string>(
+  "authSlice/confirm",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await guestService.confirm(id);
+      return response.data;
     } catch (e: any) {
       return rejectWithValue(e.message);
     }
   }
 );
 
-// me – повернення поточного авторизованого гостя
-const me = createAsyncThunk<IGuest | null>(
-  "authSlice/me",
-  async (_, { rejectWithValue }) => {
-    try {
-      const guest = authService.me();
-      localStorage.setItem("me", JSON.stringify(guest));
-      return guest;
-    } catch (e: any) {
-      return rejectWithValue(e.message);
-    }
-  }
-);
+
+
+
 
 export const AuthSlice = createSlice({
   name: "authSlice",
@@ -53,15 +62,30 @@ export const AuthSlice = createSlice({
       authService.logout();
       state.me = null;
     },
+    setLogoutTrigger: (state) => {
+      state.me = null;
+      state.logoutTrigger = !state.logoutTrigger; // Перемикаємо стан logoutTrigger
+    },
+  
   },
   extraReducers: (builder) => {
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.me = action.payload;
+        // Збереження first_name і last_name у localStorage
+        if (action.payload.first_name && action.payload.last_name) {
+          localStorage.setItem('first_name', action.payload.first_name);
+          localStorage.setItem('last_name', action.payload.last_name);
+        }
       })
-      .addCase(me.fulfilled, (state, action) => {
+      .addCase(login.rejected, (state, action) => {
+        state.me = null;
+        state.error = action.payload as string;
+      })
+      .addCase(confirm.fulfilled, (state, action) => {
         state.me = action.payload;
       })
+      
       .addMatcher(isRejected, (state, action) => {
         state.error = action.payload as string;
       })
@@ -76,7 +100,7 @@ const { actions, reducer: authReducer } = AuthSlice;
 const authActions = {
   ...actions,
   login,
-  me,
+  confirm
 };
 
 export { authActions, authReducer };

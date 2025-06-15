@@ -1,7 +1,12 @@
-import React from "react";
+import { useAppSelector } from "../../hooks/hooks";
+
 type Props = {}
 
 const MainInfo = (props: Props) => {
+  const { me } = useAppSelector((state) => state.auth); 
+  if (!me) {
+    return null; // Якщо користувач не авторизований, нічого не показуємо
+  } 
   return (
     <section className="main-info">
       <p className="main-text">

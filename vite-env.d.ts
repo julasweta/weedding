@@ -1,8 +1,9 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_TELEGRAM_TOKEN: string;
-  // додай інші змінні, якщо потрібно
+  readonly VITE_SHEET_URL: string;
+  // додай інші, якщо треба:
+  // readonly VITE_API_URL: string;
 }
 
 interface ImportMeta {

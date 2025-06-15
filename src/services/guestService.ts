@@ -1,11 +1,16 @@
-// src/services/guestService.ts
+import { apiService, IRes } from "./ApiServices";
 
 export interface IGuest {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
+  email?: string;
+  role?: string; // Додано для можливого розширення
+  id?: string; // Додано для унікальної ідентифікації
+  isConfirmed?: boolean; // Додано для підтвердження присутності
 }
 
-const GUESTS_URL = "/guests.json";
+// Виправлений шлях для GitHub Pages:
+const GUESTS_URL = `${import.meta.env.BACKEND_URL}/users`;
 
 export const guestService = {
   async getGuests(): Promise<IGuest[]> {
@@ -13,14 +18,8 @@ export const guestService = {
     if (!res.ok) throw new Error("Не вдалося завантажити список гостей");
     return await res.json();
   },
+  confirm: (id: string): IRes<IGuest> =>
+    apiService.post(`users/confirm?id=${id}`),  // без зайвої дужки
+  
 
-  async login(firstName: string, lastName: string): Promise<IGuest | null> {
-    const guests = await this.getGuests();
-    const found = guests.find(
-      (g) =>
-        g.firstName.toLowerCase() === firstName.toLowerCase().trim() &&
-        g.lastName.toLowerCase() === lastName.toLowerCase().trim()
-    );
-    return found || null;
-  },
 };

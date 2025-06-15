@@ -1,8 +1,11 @@
-import React from "react";
+import { useAppSelector } from "../../hooks/hooks";
+
 type Props = {};
 
 const Location = () => {
-  return (
+  const { me } = useAppSelector((state) => state.auth);
+  if(me)
+ { return (
     <section className="location-section">
       <h2 className="location-title">📍 Локація</h2>
       <p className="location-address">
@@ -23,7 +26,7 @@ const Location = () => {
         ></iframe>
       </div>
     </section>
-  );
+  );}
 };
 
 export default Location;

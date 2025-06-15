@@ -1,4 +1,3 @@
-import React from "react";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { authActions } from "../../redux/slices/authSlice";
@@ -9,10 +8,7 @@ export const LoginForm = () => {
   const dispatch = useAppDispatch();
   const { me, error } = useAppSelector((state) => state.auth);
 
-  const [guest, setGuest] = useState(() => {
-    const meString = localStorage.getItem("guest");
-    return meString ? JSON.parse(meString) : null;
-  });
+console.log("me", me);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,13 +22,11 @@ export const LoginForm = () => {
 
   // Якщо auth.me оновлюється після login — підтягуй guest автоматично
   useEffect(() => {
-    const meString = localStorage.getItem("guest");
-    setGuest(meString ? JSON.parse(meString) : null);
   }, [me]);
 
   return (
     <div className="login-container">
-      {!me && !guest && (
+      {!me &&  (
         <form onSubmit={handleSubmit}>
           <h2>Вхід в систему</h2>
           <div>
@@ -57,12 +51,20 @@ export const LoginForm = () => {
         </form>
       )}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {!me && error && (
+        <div style={{ color: "red" }}>
+          {error === 'Користувача не знайдено'
+            ? 'Користувача з такими даними не знайдено. Спробуйте ще раз.'
+            : 'Сталася помилка. Спробуйте пізніше.'
+          }
+        </div>
+      )}
 
-      {(me || guest) && (
+
+      {me  && (
         <>
           <p className="welcome-name">
-            Привіт, {(me?.firstName || guest?.firstName)} {(me?.lastName || guest?.lastName)}!
+            Вітаємо, {(me?.first_name)}!
           </p>
    
         </>

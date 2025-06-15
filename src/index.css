@@ -1,4 +1,22 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* щоб приховати випадковий горизонтальний скрол */
+}
+
 /* HEADER */
+.main-layout {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  min-height: 100vh;
+
+  background: url('../public/main.jpg') no-repeat center center;
+  background-size: cover;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -12,24 +30,43 @@
   top: 0;
   z-index: 1000;
   animation: fadeIn 1s ease-out;
+  margin-bottom: 20px;
 }
 
 .header-logo {
-  font-size: 24px;
-  font-style: italic;
-  color: #b388eb;
-  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #d16ba5;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  text-align: center;
+  line-height: 1.5;
+  animation: fadeIn 1.2s ease-in-out;
+  text-shadow: 0 2px 4px rgba(255, 182, 193, 0.4);
+  background: linear-gradient(to right, #0b6fc0, #ce93d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 20px;
+}
+
+.couple-names {
+  font-size: 20px;
+  font-weight: 500;
+  color: #5e548e;
+  display: block;
+  margin-top: 8px;
 }
 
 .header-nav {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 15px;
 }
 
 .nav-button {
   background: transparent;
-  border: 2px solid transparent;
-  color: #7c4dff;
+  border: 2px solid rgb(55, 143, 198);
+  color: #304dd1;
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 20px;
@@ -39,8 +76,8 @@
 
 .nav-button:hover {
   background-color: #fff;
-  border-color: #f48fb1;
-  color: #f06292;
+  border-color: #c218b4;
+  color: #cc34da;
 }
 
 .logout-button {
@@ -60,7 +97,8 @@
 }
 
 /* MAININFO */
-.main-info {display: flex;
+.main-info {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -120,8 +158,16 @@
 /* LOGIN */
 
 .login-container {
-  max-width: 880px;
-  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 100%;
+  max-width: 400px;
+  /* або інше значення, залежно від дизайну */
+  width: 100%;
+  box-sizing: border-box;
   padding: 10px 10px;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(12px);
@@ -181,7 +227,7 @@
 }
 
 .login-container button:hover {
-  transform: translateY(-3px);
+  /* transform: translateY(-3px); */
   box-shadow: 0 6px 18px rgba(129, 212, 250, 0.4);
 }
 
@@ -197,6 +243,31 @@
   font-size: 28px !important;
   margin-bottom: 20px;
   animation: fadeIn 0.8s ease-in;
+}
+
+/* LOCATION */
+.location-address {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(173, 216, 230, 0.25);
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  margin: 20px auto;
+}
+
+/* CONFIRM */
+.confirm-container {
+  max-width: 400px;
+  margin: 20px auto;
+  text-align: center;
+  background: linear-gradient(135deg, #9ab6ca, #f9c5d1);
+  padding: 20px;
+  border-radius: 8px;
+  opacity: 0.7;
+  font-family: "Poppins", sans-serif;
+  font-style: italic;
 }
 
 /* Анімації */
@@ -260,4 +331,188 @@
   font-weight: 600;
   color: #d16ba5;
   animation: fadeIn 1s ease-in;
+}
+
+/* Бургер кнопка - за замовчуванням прихована */
+.burger-button {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1100;
+}
+
+/* Смуги бургеру */
+.burger-button span {
+  display: block;
+  height: 3px;
+  background-color: #7c4dff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Мобільні стилі */
+@media (max-width: 600px) {
+
+  /* Показати бургер кнопку */
+  .burger-button {
+    display: flex;
+  }
+
+  /* Ховаємо навігацію по замовчуванню */
+  .header-nav {
+    position: fixed;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: rgba(239, 233, 239, 0.9);
+    box-shadow: 0 4px 12px rgba(173, 216, 230, 0.2);
+    border-radius: 10px 0 20px 20px;
+    z-index: 1000;
+    transform: translateX(0);
+    top: 250px;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .header-nav.open {
+    transform: translateX(0);
+    width: 90%;
+    align-self: center;
+  }
+
+  /* Кнопки в меню */
+  .nav-button {
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  /* Logout button теж на всю ширину */
+  .logout-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    width: 100px !important;
+    padding: 12px 10px;
+  }
+}
+
+/* Мобільна адаптація */
+@media (max-width: 600px) {
+  .header-container {
+    padding: 12px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .header-logo {
+    font-size: 20px;
+  }
+
+  .header-nav {
+    width: 100%;
+    gap: 10px;
+    overflow-x: auto;
+  }
+
+  .nav-button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .logout-button {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+  }
+
+  .main-info {
+    width: 90%;
+    margin: 20px auto;
+  }
+
+  .main-text {
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .event-info h3 {
+    font-size: 20px;
+  }
+
+  .event-info ul {
+    font-size: 15px;
+  }
+
+  .event-info li {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .couple-names {
+    font-size: 18px;
+  }
+
+
+
+  .login-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .login-container label {
+    font-size: 13px;
+  }
+
+  .login-container input {
+    font-size: 14px;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+
+  .login-container button {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+
+  .login-container p {
+    font-size: 15px;
+  }
+
+  .welcome-name {
+    font-size: 24px !important;
+  }
+
+  .about-us {
+    width: 90%;
+    margin: 30px auto;
+    padding: 30px 20px;
+  }
+
+  .about-title {
+    font-size: 24px;
+  }
+
+  .about-text {
+    font-size: 16px;
+  }
+
+  .about-names {
+    font-size: 18px;
+  }
 }
